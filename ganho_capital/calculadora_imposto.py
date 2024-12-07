@@ -12,9 +12,9 @@ def tax_to_dict(valor_imposto):
     return {'tax': str(ValorMonetario(valor_imposto).valor_monetario)}
 
 
-def nao_deve_arrecadar_imposto(valor, quantidade):
+def valor_abaixo_teto_arrecadacao(valor, quantidade):
     resultado = ValorMonetario(valor).valor_monetario * Quantidade(quantidade).quantidade < ValorMonetario(20000).valor_monetario
-    logging.info(f"Verificando se não deve arrecadar imposto para valor={valor} e quantidade={quantidade}: {resultado}")
+    logging.info(f"Deve arrecadar imposto {resultado} para o valor={valor} e quantidade={quantidade}")
     return resultado
 
 
@@ -33,17 +33,17 @@ def calcular(operacoes):
                 continue
 
             if operacao['operation'] == 'sell':
-                if nao_deve_arrecadar_imposto(operacao['unit-cost'], operacao['quantity']):
-                    impostos_calculados.append(tax_to_dict(0))
-                    logging.info(f"Venda abaixo do limite de arrecadação: {operacao}")
-                    continue
-
                 lucro = gerenciador.calcular_lucro(operacao['unit-cost'], operacao['quantity'])
                 classificacao_lucro = gerenciador.classificar_lucro(lucro)
                 logging.info(f"Lucro calculado: {lucro}, classificação: {classificacao_lucro.name}")
 
                 if classificacao_lucro == ClassificacaoLucro.LUCRO:
                     gerenciador.incrementar_lucro(lucro)
+                    if gerenciador.operando_em_prejuizo() or valor_abaixo_teto_arrecadacao(operacao['unit-cost'], operacao['quantity']):
+                        impostos_calculados.append(tax_to_dict(0))
+                        logging.info(f"Não deve arrecadar imposto: {operacao}")
+                        continue
+                    
                     imposto = gerenciador.calcular_valor_imposto()
                     impostos_calculados.append(tax_to_dict(imposto))
                     logging.info(f"Imposto arrecadado por lucro: {imposto}")
@@ -52,7 +52,7 @@ def calcular(operacoes):
                 if classificacao_lucro == ClassificacaoLucro.PREJUIZO:
                     gerenciador.decrementar_prejuizo(lucro)
                     impostos_calculados.append(tax_to_dict(0))
-                    logging.info(f"Decrementando prejuizo: {lucro}")
+                    logging.info(f"Decrementando prejuizo do lucro: {lucro}")
                     continue
 
                 impostos_calculados.append(tax_to_dict(0))

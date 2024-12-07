@@ -32,7 +32,7 @@ class Transacoes:
             return Quantidade(0).quantidade
         
         preco_medio = self.custo_total / self.quantidade_total
-        logging.info(f"Preço médio calculado: custo_total={self.custo_total}, quantidade_total={self.quantidade_total}, preco_medio={preco_medio}")
+        logging.info(f"Preço médio atualizado {preco_medio}")
         return preco_medio
 
 
@@ -48,12 +48,18 @@ class Transacoes:
     
     def incrementar_lucro(self, lucro):
         self.lucro_total += ValorMonetario(lucro).valor_monetario
-        logging.info(f"Lucro total: {self.lucro_total}")
+        logging.info(f"Lucro após incrementar: {self.lucro_total}")
     
     
     def decrementar_prejuizo(self, lucro):
         self.lucro_total -= abs(ValorMonetario(lucro).valor_monetario)
-        logging.info(f"Lucro total: {self.lucro_total}")
+        logging.info(f"Lucro após decrementar: {self.lucro_total}")
+    
+    
+    def operando_em_prejuizo(self):
+        transacoes_em_prejuizo = self.lucro_total < 0
+        logging.info(f"Operando em prejuizo: {transacoes_em_prejuizo}")
+        return transacoes_em_prejuizo
     
     
     def calcular_valor_imposto(self):
