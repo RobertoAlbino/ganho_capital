@@ -8,19 +8,18 @@ from correlation_id_filter import CorrelationIdFilter
 
 
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(correlation_id)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(correlation_id)s - %(message)s"
 )
 logging.getLogger().addFilter(CorrelationIdFilter())
 
 
 def processar():
     logging.info("Iniciando o processamento dos dados.")
-    
+
     input_data = sys.stdin.read()
     logging.info("Dados recebidos do stdin.")
-    
-    datasets = input_data.strip().split('\n')
+
+    datasets = input_data.strip().split("\n")
     logging.info(f"{len(datasets)} datasets encontrados para processamento.")
 
     for dataset in datasets:
