@@ -8,7 +8,8 @@ from correlation_id_filter import CorrelationIdFilter
 
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(correlation_id)s - %(message)s"
+    level=logging.INFO,
+    format="%(asctime)s - %(correlation_id)s - %(message)s",
 )
 logging.getLogger().addFilter(CorrelationIdFilter())
 
@@ -25,7 +26,7 @@ def processar():
     for dataset in datasets:
         try:
             data = ast.literal_eval(dataset)
-            logging.info(f"Processando dataset")
+            logging.info("Processando dataset")
             resultado = calculadora_imposto.calcular(data)
             print(resultado)
         except Exception as e:

@@ -15,10 +15,14 @@ def tax_to_dict(valor_imposto):
 
 
 def valor_abaixo_teto_arrecadacao(valor, quantidade):
-    total = ValorMonetario(valor).valor_monetario * Quantidade(quantidade).quantidade
+    total = (
+        ValorMonetario(valor).valor_monetario
+        * Quantidade(quantidade).quantidade
+    )
     resultado = total < ValorMonetario(20000).valor_monetario
     logging.info(
-        f"valor_abaixo_teto_arrecadacao {resultado} para o valor={valor} e quantidade={quantidade}"
+        f"valor_abaixo_teto_arrecadacao {resultado} para o valor={valor} \
+            e quantidade={quantidade}"
     )
     return resultado
 
@@ -26,13 +30,13 @@ def valor_abaixo_teto_arrecadacao(valor, quantidade):
 def calcular(operacoes):
     filter = CorrelationIdFilter()
     logging.getLogger().addFilter(filter)
-    logging.info("Iniciando cálculo dos impostos.")
+    logging.info("Iniciando cálculo dos impostos")
     gerenciador = Transacoes()
     impostos_calculados = []
 
     for operacao in operacoes:
         filter.correlation_id_var.set(uuid.uuid4())
-        logging.info(f"Processando operação {operacao}")
+        logging.info(f"########## Processando operação {operacao} ##########")
         try:
             if operacao["operation"] == "buy":
                 gerenciador.resetar_transacao()
@@ -49,7 +53,9 @@ def calcular(operacoes):
                     operacao["unit-cost"], operacao["quantity"]
                 )
                 obteve_lucro = gerenciador.obteve_lucro(operacao["unit-cost"])
-                logging.info(f"Lucro calculado: {lucro}, obteve_lucro: {obteve_lucro}")
+                logging.info(
+                    f"Lucro calculado: {lucro}, obteve_lucro: {obteve_lucro}"
+                )
 
                 if obteve_lucro:
                     logging.info("Operação com lucro")
@@ -61,7 +67,9 @@ def calcular(operacoes):
                         )
                     ):
                         impostos_calculados.append(tax_to_dict(0))
-                        logging.info(f"Não deve arrecadar imposto: {operacao}")
+                        logging.info(
+                            f"Não deve arrecadar imposto: {operacao}"
+                        )
                         continue
 
                     imposto = gerenciador.calcular_valor_imposto()
@@ -72,7 +80,9 @@ def calcular(operacoes):
                 if lucro == ValorMonetario(0).valor_monetario:
                     logging.info("Operação neutra")
                     impostos_calculados.append(tax_to_dict(0))
-                    logging.info(f"Operação de venda processada sem lucro: {operacao}")
+                    logging.info(
+                        f"Operação de venda processada sem lucro: {operacao}"
+                    )
                     continue
 
                 logging.info("Operação com prejuízo")
@@ -80,7 +90,11 @@ def calcular(operacoes):
                 impostos_calculados.append(tax_to_dict(0))
 
         except Exception as e:
-            logging.error(f"Erro ao processar operação: {operacao}, erro: {e}")
+            logging.error(
+                f"Erro ao processar operação: {operacao}, erro: {e}"
+            )
 
-    logging.info(f"Finalizando cálculo dos impostos. Resultados: {impostos_calculados}")
+    logging.info(
+        f"Finalizando cálculo dos impostos. Resultados: {impostos_calculados}"
+    )
     return impostos_calculados
