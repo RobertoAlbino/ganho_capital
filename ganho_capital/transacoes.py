@@ -3,7 +3,6 @@ import logging
 
 from quantidade import Quantidade
 from valor_monetario import ValorMonetario
-from classificacao_lucro import ClassificacaoLucro
 
 
 class Transacoes:
@@ -14,6 +13,14 @@ class Transacoes:
         self.lucro_total = ValorMonetario(0.00).valor_monetario
         self.preco_medio_calculado = ValorMonetario(0.00).valor_monetario
         self.quantidade_total = Quantidade(0).quantidade
+    
+    
+    def resetar_transacao(self):
+        if self.quantidade_total == Quantidade(0).quantidade:
+            logging.info("Transação resetada")
+            self.custo_total = ValorMonetario(0.00).valor_monetario
+            self.lucro_total = ValorMonetario(0.00).valor_monetario
+            self.preco_medio_calculado = ValorMonetario(0.00).valor_monetario
 
 
     def atualizar_preco_medio(self, custo_unitario, quantidade):
@@ -47,18 +54,17 @@ class Transacoes:
     
     
     def incrementar_lucro(self, lucro):
+        logging.info(f"Lucro para ser incrementado: {lucro}")
+        logging.info(f"Lucro antes incrementar: {self.lucro_total}")
         self.lucro_total += ValorMonetario(lucro).valor_monetario
         logging.info(f"Lucro após incrementar: {self.lucro_total}")
     
     
     def decrementar_prejuizo(self, lucro):
+        logging.info(f"Lucro para ser decrementado: {lucro}")
+        logging.info(f"Lucro antes decrementar: {self.lucro_total}")
         self.lucro_total -= abs(ValorMonetario(lucro).valor_monetario)
         logging.info(f"Lucro após decrementar: {self.lucro_total}")
-    
-    
-    def decrementar_imposto(self, imposto):
-        self.lucro_total = self.lucro_total - ValorMonetario(imposto).valor_monetario
-        logging.info(f"Lucro após decrementar imposto: {self.lucro_total}")
     
     
     def decrementar_quantidade(self, quantidade):
@@ -74,6 +80,7 @@ class Transacoes:
     
     
     def calcular_valor_imposto(self):
+        logging.info(f"Calculando imposto sobre lucro total de: {self.lucro_total}")
         return self.lucro_total * ValorMonetario(0.20).valor_monetario
         
 

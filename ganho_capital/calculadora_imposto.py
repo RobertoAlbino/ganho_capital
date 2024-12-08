@@ -4,7 +4,6 @@ import logging
 from quantidade import Quantidade
 from transacoes import Transacoes
 from valor_monetario import ValorMonetario
-from classificacao_lucro import ClassificacaoLucro
 
 
 def tax_to_dict(valor_imposto):
@@ -28,6 +27,7 @@ def calcular(operacoes):
         logging.info(f"Processando operação {i}: {operacao}")
         try:
             if operacao['operation'] == 'buy':
+                gerenciador.resetar_transacao()
                 gerenciador.atualizar_preco_medio(operacao['unit-cost'], operacao['quantity'])
                 impostos_calculados.append(tax_to_dict(0))
                 logging.info(f"Operação de compra processada: {operacao}")
@@ -61,7 +61,6 @@ def calcular(operacoes):
                 logging.info("Operação com prejuízo")
                 gerenciador.decrementar_prejuizo(lucro)
                 impostos_calculados.append(tax_to_dict(0))
-                logging.info(f"Decrementando prejuizo do lucro: {lucro}")
 
         except Exception as e:
             logging.error(f"Erro ao processar operação {i}: {operacao}, erro: {e}")
