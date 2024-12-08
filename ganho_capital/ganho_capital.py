@@ -4,9 +4,14 @@ import logging
 
 
 import calculadora_imposto
+from correlation_id_filter import CorrelationIdFilter
 
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(correlation_id)s - %(message)s"
+)
+logging.getLogger().addFilter(CorrelationIdFilter())
 
 
 def processar():
@@ -18,14 +23,14 @@ def processar():
     datasets = input_data.strip().split('\n')
     logging.info(f"{len(datasets)} datasets encontrados para processamento.")
 
-    for i, dataset in enumerate(datasets, start=1):
+    for dataset in datasets:
         try:
             data = ast.literal_eval(dataset)
-            logging.info(f"Processando dataset {i}: {data}")
+            logging.info(f"Processando dataset")
             resultado = calculadora_imposto.calcular(data)
             print(resultado)
         except Exception as e:
-            logging.error(f"Erro ao processar o dataset {i}: {e}")
+            logging.error(f"Erro ao processar o dataset: {e}")
 
     logging.info("Processamento finalizado.")
 

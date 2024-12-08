@@ -1,14 +1,17 @@
 import logging
+import uuid
 
 
+from correlation_id_filter import CorrelationIdFilter
 from quantidade import Quantidade
 from transacoes import Transacoes
 from valor_monetario import ValorMonetario
 
 
 def tax_to_dict(valor_imposto):
-    logging.info(f"Convertendo valor de imposto para dicionário: {valor_imposto}")
-    return {'tax': str(ValorMonetario(valor_imposto).valor_monetario)}
+    valor_imposto = str(ValorMonetario(valor_imposto).valor_monetario)
+    logging.info(f"Adicionando imposto: {valor_imposto}")
+    return {'tax': valor_imposto}
 
 
 def valor_abaixo_teto_arrecadacao(valor, quantidade):
@@ -19,12 +22,15 @@ def valor_abaixo_teto_arrecadacao(valor, quantidade):
 
 
 def calcular(operacoes):
+    filter = CorrelationIdFilter()
+    logging.getLogger().addFilter(filter)
     logging.info("Iniciando cálculo dos impostos.")
     gerenciador = Transacoes()
     impostos_calculados = []
 
-    for i, operacao in enumerate(operacoes, start=1):
-        logging.info(f"Processando operação {i}: {operacao}")
+    for operacao in operacoes:
+        filter.correlation_id_var.set(uuid.uuid4())
+        logging.info(f"Processando operação {operacao}")
         try:
             if operacao['operation'] == 'buy':
                 gerenciador.resetar_transacao()
@@ -63,7 +69,7 @@ def calcular(operacoes):
                 impostos_calculados.append(tax_to_dict(0))
 
         except Exception as e:
-            logging.error(f"Erro ao processar operação {i}: {operacao}, erro: {e}")
+            logging.error(f"Erro ao processar operação: {operacao}, erro: {e}")
 
     logging.info(f"Finalizando cálculo dos impostos. Resultados: {impostos_calculados}")
     return impostos_calculados

@@ -2,7 +2,6 @@ import os
 import subprocess
 import unittest
 
-
 class TestCli(unittest.TestCase):
     
     
