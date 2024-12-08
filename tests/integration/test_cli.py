@@ -105,5 +105,23 @@ class TestCli(unittest.TestCase):
         
         self.assertEqual(resultado.returncode, 0)
         self.assertEqual(resultado.stdout.strip(), esperado)
+    
+    
+    def test_cenario_10(self):
+        resultado = self.executar_script("cenario_10")
+        
+        esperado = "[{'tax': '0.00'}, {'tax': '80000.00'}, {'tax': '0.00'}, {'tax': '60000.00'}]"
+        
+        self.assertEqual(resultado.returncode, 0)
+        self.assertEqual(resultado.stdout.strip(), esperado)
+    
+    
+    def test_cenario_11(self):
+        resultado = self.executar_script("cenario_11")
+        
+        esperado = "[{'tax': '0.00'}, {'tax': '0.00'}]"
+        
+        self.assertEqual(resultado.returncode, 0)
+        self.assertEqual(resultado.stdout.strip(), esperado)
 
     
