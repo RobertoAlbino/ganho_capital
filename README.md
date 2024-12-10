@@ -27,12 +27,6 @@ O projeto necessita apenas do docker para ser executado:
 
 - [Docker](https://www.docker.com/get-started)
 
-## Dependências do projeto
-
-O projeto necessita apenas do docker para ser executado:
-
-- [Docker](https://www.docker.com/get-started)
-
 ## Executando o projeto
 
 * Ir no arquivo docker-compose.yml no serviço ganho_capital e na parte de volumes passar o arquivo de parâmetro com o qual você quer executar o programa.
