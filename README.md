@@ -1,4 +1,4 @@
-# Projeto: Ganho de Capital Nubank
+# Projeto: Ganho de Capital
 
 ## Linguagem selecionada: Python
 
@@ -15,7 +15,9 @@ usando python3 puro.
 * Foi criada uma suíte completa de testes unitarios, com um total de 25 cenários que cobrem os pontos mais importantes do programa.
 
 * Foram adicionando logs na aplicação que usam correlation-id, cada transação é processada com um
-correlation-id unico para facilitar a pesquisa pelos logs no ambiente produtivo.
+correlation-id unico para facilitar a pesquisa pelos logs no ambiente produtivo e também facilitar debugs.
+
+* Toda a parte de calculos monetarios é feita usando o Decimal do python para termos maior confiança nos resultados 
 
 * Execução do programa e dos testes 100% containerizada.
 
@@ -24,5 +26,21 @@ correlation-id unico para facilitar a pesquisa pelos logs no ambiente produtivo.
 O projeto necessita apenas do docker para ser executado:
 
 - [Docker](https://www.docker.com/get-started)
+
+## Dependências do projeto
+
+O projeto necessita apenas do docker para ser executado:
+
+- [Docker](https://www.docker.com/get-started)
+
+## Executando o projeto
+
+* Ir no arquivo docker-compose.yml no serviço ganho_capital e na parte de volumes passar o arquivo de parâmetro com o qual você quer executar o programa.
+
+* Executar docker compose up
+
+* O programa vai ser executado junto com todos os testes (unitários e integração)
+
+
 
 
