@@ -21,7 +21,7 @@ def valor_abaixo_teto_arrecadacao(valor, quantidade):
     )
     resultado = total < ValorMonetario(20000).valor_monetario
     logging.info(
-        f"valor_abaixo_teto_arrecadacao {resultado} para o valor={valor} \
+        f"Valor {total} abaixo teto arrecadacao {resultado} para o valor={valor} \
             e quantidade={quantidade}"
     )
     return resultado
@@ -48,6 +48,10 @@ def calcular(operacoes):
                 continue
 
             if operacao["operation"] == "sell":
+                valor_total_venda = operacao["unit-cost"] * operacao["quantity"]
+                logging.info(
+                    f"Venda no valor de : {valor_total_venda}"
+                )
                 gerenciador.decrementar_quantidade(operacao["quantity"])
                 lucro = gerenciador.calcular_lucro(
                     operacao["unit-cost"], operacao["quantity"]
