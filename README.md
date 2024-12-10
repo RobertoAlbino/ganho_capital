@@ -5,9 +5,7 @@
 funciona bem para aplicações de cli, uma parte que achei muito legal foi que não
 precisei instalar nenhuma dependência externa, consegui fazer tudo que gostaria apenas
 usando python3 puro.
-* A estrutura do programa é bem simples:
-
-Entrada chega -> Passa pela Calculadora -> Calculadora orquesta para a classe de transações para armazenar e calcular todos os pontos da transação.
+* A estrutura do programa é bem simples: Entrada chega -> Passa pela Calculadora -> Calculadora orquesta para a classe de transações para armazenar e calcular todos os pontos da transação.
 
 ## Features do projeto
 * 
