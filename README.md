@@ -1,6 +1,7 @@
 # Projeto: Ganho de Capital
 
-## Linguagem selecionada: Python
+## Linguagem selecionada:
+* Python
 
 ## Decisões técnicas e arquiteturais
 * Escolhi python para resolver o desafio pois na minha visão é uma linguagem que 
@@ -13,6 +14,8 @@ usando python3 puro.
 * Foi criada uma suíte completa de testes de integração E2E, com um total de 16 cenários que chama o programa passando um input e depois valida se o output de saída é o esperado pelo cenario (Todos os casos de teste do pdf estão mapeados nos testes de integração).
 
 * Foi criada uma suíte completa de testes unitarios, com um total de 25 cenários que cobrem os pontos mais importantes do programa.
+
+* Aplicação está com uma boa cobertura de logs que facilitam no entendimento do que está ocorrendo durantes os processamentos.
 
 * Foram adicionando logs na aplicação que usam correlation-id, cada transação é processada com um
 correlation-id unico para facilitar a pesquisa pelos logs no ambiente produtivo e também facilitar debugs.
