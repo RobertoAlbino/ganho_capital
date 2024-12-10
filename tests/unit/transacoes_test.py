@@ -10,6 +10,16 @@ from ganho_capital.transacoes import Transacoes
 from ganho_capital.valor_monetario import ValorMonetario
 class TransacoesTest(unittest.TestCase):
     
+    def test_sempre_deve_zerar_contexto(self):
+        transacoes = Transacoes()
+        transacoes.incrementar_lucro(1000)
+        self.assertEqual(transacoes.lucro_total, ValorMonetario(1000.00).valor_monetario)
+        
+        transacoes = Transacoes()
+        self.assertEqual(transacoes.lucro_total, ValorMonetario(0.00).valor_monetario)
+        
+        
+    
     def test_assert_instancia_vem_zerada(self):
         transacoes = Transacoes()
         self.assertEqual(transacoes.custo_total, ValorMonetario(0.00).valor_monetario)

@@ -18,7 +18,7 @@ def processar():
     logging.info("Iniciando o processamento dos dados.")
 
     input_data = sys.stdin.read()
-    logging.info("Dados recebidos do stdin.")
+    logging.info(f"Dados recebidos no stdin: {input_data}")
 
     datasets = input_data.strip().split("\n")
     logging.info(f"{len(datasets)} datasets encontrados para processamento.")

@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     stdin_open: true
     volumes:
-      - ./tests/integration/data/cenario_9.txt:/app/input.txt
+      - ./tests/integration/data/cenario_1.txt:/app/input.txt
     command: sh -c "python3 ganho_capital/ganho_capital.py < /app/input.txt"
 
   test_ganho_capital:
