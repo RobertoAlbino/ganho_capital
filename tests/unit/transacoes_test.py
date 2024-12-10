@@ -8,7 +8,6 @@ sys.path.append(path)
 from ganho_capital.quantidade import Quantidade
 from ganho_capital.transacoes import Transacoes
 from ganho_capital.valor_monetario import ValorMonetario
-
 class TransacoesTest(unittest.TestCase):
     
     def test_assert_instancia_vem_zerada(self):
@@ -114,6 +113,30 @@ class TransacoesTest(unittest.TestCase):
         transacoes.decrementar_prejuizo(-10000)
         
         assert transacoes.operando_em_prejuizo()
+    
+    def test_calcular_valor_imposto(self):
+        transacoes = Transacoes()
+        transacoes.lucro_total = 1000
+        
+        imposto = transacoes.calcular_valor_imposto()
+        
+        self.assertEqual(imposto, ValorMonetario(200).valor_monetario)
+    
+    def test_calcular_valor_imposto(self):
+        transacoes = Transacoes()
+        transacoes.lucro_total = 1000
+        
+        imposto = transacoes.calcular_valor_imposto()
+        
+        self.assertEqual(imposto, ValorMonetario(200).valor_monetario)
+    
+    def test_calcular_lucro(self):
+        transacoes = Transacoes()
+        transacoes.preco_medio_calculado = 10
+        
+        lucro = transacoes.calcular_lucro(20, 10)
+        
+        self.assertEqual(lucro, ValorMonetario(100).valor_monetario)
     
 
     
